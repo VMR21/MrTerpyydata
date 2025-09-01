@@ -47,8 +47,9 @@ async function fetchAndProcess(url) {
   );
 
   const top10 = sorted.slice(0, 10);
-  // (Optional) swap top 2 like your other script:
-  // if (top10.length >= 2) [top10[0], top10[1]] = [top10[1], top10[0]];
+
+  // 🔄 Swap top 2
+  if (top10.length >= 2) [top10[0], top10[1]] = [top10[1], top10[0]];
 
   return top10.map((entry) => {
     const w = Math.max(0, Math.round(parseFloat(entry.wagered_amount || 0)));
@@ -72,12 +73,12 @@ async function fetchAndCacheData() {
 
 // --- Routes ---
 
-// Current month (1st → last day)
+// Current month (1st → last day) with swap
 app.get("/leaderboard/top14", (req, res) => {
   res.json(cachedData);
 });
 
-// Previous month (1st → last day)
+// Previous month (1st → last day) with swap
 app.get("/leaderboard/prev", async (req, res) => {
   try {
     const now = new Date();
